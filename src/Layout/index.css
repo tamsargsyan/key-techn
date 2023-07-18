@@ -1,0 +1,12 @@
+.layoutContainer {
+  display: flex;
+}
+.firstPartContainer {
+  flex-grow: 1;
+}
+.thidPartContainer {
+  flex-grow: 2;
+}
+.mainPartContainer {
+  flex-grow: 3;
+}

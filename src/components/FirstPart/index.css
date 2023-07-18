@@ -1,0 +1,70 @@
+.firstPartContainer {
+  border-radius: 10px;
+  width: fit-content;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+.header {
+  background-color: var(--main-color);
+  width: 295px;
+  padding: 15px;
+  display: flex;
+  gap: 20px;
+  height: 70px;
+}
+.folder {
+  display: flex;
+  gap: 15px;
+  justify-content: space-between;
+  width: auto;
+  padding: 20px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  position: relative;
+}
+.folder img:first-child,
+.folder span {
+  flex: 0 0 auto;
+}
+.folder button {
+  opacity: 0;
+  margin-left: auto;
+  transition: 0.3s ease;
+}
+.folderDetail {
+  opacity: 1 !important;
+}
+.content {
+  width: 100%;
+}
+.activeFolder {
+  background-color: var(--active-color);
+}
+.copyRight {
+  color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  align-self: end;
+  margin-bottom: 20px;
+  margin-left: 15px;
+}
+.header input {
+  background-color: #fff;
+  border-radius: 100px;
+  border: none;
+  outline: none;
+  padding: 10px;
+  padding-left: 20px;
+  width: inherit;
+}
+.header input::placeholder {
+  color: #d6d6d6;
+}
+.searchContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}

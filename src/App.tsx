@@ -1,25 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Layout from "./Layout";
+import FirstPart from "./components/FirstPart";
+import MainPart from "./components/MainPart";
+import ThirdPart from "./components/ThirdPart";
+import { useSelector, useDispatch } from "react-redux";
+import { setCounter } from "./redux/actions";
 
 function App() {
+  const counter = useSelector((state: any) => state.counter);
+  const dispatch = useDispatch();
+
+  const incrementCounter = () => {
+    dispatch(setCounter(counter + 1));
+  };
+  console.log(incrementCounter);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <FirstPart />
+      <MainPart />
+      <ThirdPart />
+    </Layout>
   );
 }
 

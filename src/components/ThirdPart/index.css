@@ -1,0 +1,61 @@
+.thidPartContainer .heading {
+  background-color: #e8f0ff;
+  color: #4698f0;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 20px;
+}
+.formGroup {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.formGroup label {
+  font-weight: bold;
+}
+.formGroup input,
+.formGroup textarea {
+  border-radius: 50px;
+  border: 1px solid #dfdfdf;
+  outline: none;
+  padding: 10px;
+  padding-left: 15px;
+  width: 350px;
+}
+.formGroup textarea {
+  resize: none;
+  border-radius: 10px;
+  width: 100%;
+}
+.textArea {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.copy {
+  cursor: pointer;
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.eye {
+  right: 40px;
+}
+.formBtns {
+  display: flex;
+  gap: 10px;
+}
+.formBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 555px;
+  background: #e8f0ff;
+  padding: 10px 20px;
+  color: #4698F0;
+}

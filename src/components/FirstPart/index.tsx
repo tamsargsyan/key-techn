@@ -9,6 +9,8 @@ import DETAIL_ICON from "../../assets/icons/detail.svg";
 import LOGO from "../../assets/logo.svg";
 import DetailModal from "../DetailModal";
 import "./index.css";
+import { useDispatch } from "react-redux";
+import { setActivedFolder } from "../../redux/actions";
 
 const btns = [
   { id: 1, name: "Add", imgUrl: ADD_ICON },
@@ -48,6 +50,7 @@ const FirstPart = () => {
       )
     );
   };
+  const dispatch = useDispatch();
 
   return (
     <div className='firstPartContainer'>
@@ -74,7 +77,10 @@ const FirstPart = () => {
           <div
             className={`folder ${activeFolder === id && "activeFolder"}`}
             key={id}
-            onClick={() => setActiveFolder(id)}>
+            onClick={() => {
+              setActiveFolder(id);
+              dispatch(setActivedFolder(id));
+            }}>
             <img src={FOLDER_ICON} alt='Folder' />
             <span>{name}</span>
             <button

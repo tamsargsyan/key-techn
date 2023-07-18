@@ -1,22 +1,24 @@
-// src/redux/reducers.ts
-
 import { ActionTypes } from "./constants";
-import { SetCounterAction } from "./actions";
+import { SetActivateAction } from "./actions";
+import { initialFolders } from "../data";
 
 interface AppState {
-  counter: number;
+  folder: any;
 }
 
 const initialState: AppState = {
-  counter: 0,
+  folder: initialFolders[0],
 };
 
-const reducer = (state = initialState, action: SetCounterAction): AppState => {
+const reducer = (state = initialState, action: SetActivateAction): AppState => {
   switch (action.type) {
-    case ActionTypes.SET_COUNTER:
+    case ActionTypes.SET_ACTIVE_FOLDER:
+      const id = action.payload;
+      console.log(id);
+      const activatedFolder = initialFolders.find(folder => folder.id === id);
       return {
         ...state,
-        counter: action.payload,
+        folder: activatedFolder,
       };
     default:
       return state;

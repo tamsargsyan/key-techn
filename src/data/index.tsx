@@ -21,8 +21,36 @@ export const initialFolders: FolderProps[] = [
     passwords: [
       {
         id: 1,
-        passName: "a",
+        passName: "parol a",
         pass: "1234567",
+        login: "",
+        url: "https://www.site.com",
+      },
+      {
+        id: 2,
+        passName: "parol i",
+        pass: "123456f",
+        login: "",
+        url: "https://www.site.com",
+      },
+      {
+        id: 3,
+        passName: "parol 89",
+        pass: "123456f",
+        login: "",
+        url: "https://www.site.com",
+      },
+      {
+        id: 4,
+        passName: "parol vx",
+        pass: "123456f",
+        login: "",
+        url: "https://www.site.com",
+      },
+      {
+        id: 5,
+        passName: "parol hjk",
+        pass: "123456f",
         login: "",
         url: "https://www.site.com",
       },
@@ -36,14 +64,14 @@ export const initialFolders: FolderProps[] = [
     passwords: [
       {
         id: 1,
-        passName: "a",
+        passName: "parol g",
         pass: "654321s",
         login: "",
         url: "https://www.site.com",
       },
       {
         id: 2,
-        passName: "b",
+        passName: "parol f",
         pass: "123456f",
         login: "",
         url: "https://www.site.com",
@@ -58,14 +86,14 @@ export const initialFolders: FolderProps[] = [
     passwords: [
       {
         id: 1,
-        passName: "j",
+        passName: "parol aws",
         pass: "89898989",
         login: "",
         url: "https://www.site.com",
       },
       {
         id: 2,
-        passName: "f",
+        passName: "parol wsaass",
         pass: "000000",
         login: "",
         url: "https://www.site.com",

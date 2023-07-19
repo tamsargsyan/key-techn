@@ -7,8 +7,21 @@ import lockIcon from "../../assets/icons/lock.svg";
 import historyIcon from "../../assets/icons/history.svg";
 import modifyIcon from "../../assets/icons/modify.svg";
 import urlIcon from "../../assets/icons/url.svg";
+import { notification } from "antd";
+import { NotificationType } from "../../Notification";
 
 const ThirdPart = () => {
+  const [api, contextHolder] = notification.useNotification();
+  const openNotificationWithIcon = (
+    type: NotificationType,
+    message: string
+  ) => {
+    api[type]({
+      message,
+      placement: "bottomRight",
+    });
+  };
+
   const [inputs, setInputs] = useState([
     {
       id: 1,
@@ -66,8 +79,8 @@ const ThirdPart = () => {
     const valueToCopy = inputs.find(input => input.id === id)?.value || "";
     navigator.clipboard
       .writeText(valueToCopy)
-      .then(() => console.log("Text copied to clipboard"))
-      .catch(error => console.error("Error copying text to clipboard:", error));
+      .then(() => openNotificationWithIcon("success", "Успешно скопировано"))
+      .catch(error => openNotificationWithIcon("error", "Ошибка"));
   };
   const passwordRef = useRef<HTMLInputElement>(null);
   const showPassword = (e: any) => {
@@ -135,6 +148,7 @@ const ThirdPart = () => {
           </div>
         </form>
       </div>
+      {contextHolder}
     </div>
   );
 };

@@ -5,11 +5,13 @@ import GALLERY_ICON from "../../assets/icons/gallery.svg";
 import "./index.css";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setActivePassword } from "../../redux/actions";
 
 const MainPart = () => {
   const activatedFolder = useSelector((state: any) => state.folder);
   const [sortAscending, setSortAscending] = useState(true);
-
+  const dispatch = useDispatch();
   const sortedList = [...activatedFolder.passwords].sort((a, b) =>
     sortAscending
       ? a.passName.localeCompare(b.passName)
@@ -18,6 +20,7 @@ const MainPart = () => {
   const handleSortClick = () => {
     setSortAscending(!sortAscending);
   };
+  const activatedPassword = useSelector((state: any) => state.password);
   return (
     <div className='mainPartContainer'>
       <div className='heading' onClick={handleSortClick}>
@@ -30,7 +33,12 @@ const MainPart = () => {
       <div className='content'>
         {sortedList.map((pass: any) => {
           return (
-            <div className='folder' key={pass.id}>
+            <div
+              className={`${
+                activatedPassword?.id === pass.id && "activePass"
+              } folder pass`}
+              key={pass.id}
+              onClick={() => dispatch(setActivePassword(pass.id))}>
               <div className='name'>
                 <img src={GALLERY_ICON} alt='Gallery' />
                 <span>{pass.passName}</span>

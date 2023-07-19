@@ -1,3 +1,4 @@
 export const ActionTypes = {
   SET_ACTIVE_FOLDER: "SET_ACTIVE_FOLDER",
+  SET_ACTIVE_PASSWORD: "SET_ACTIVE_PASSWORD",
 };

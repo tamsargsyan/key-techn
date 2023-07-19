@@ -4,10 +4,12 @@ import { initialFolders } from "../data";
 
 interface AppState {
   folder: any;
+  password: any;
 }
 
 const initialState: AppState = {
   folder: initialFolders[0],
+  password: null,
 };
 
 const reducer = (state = initialState, action: SetActivateAction): AppState => {
@@ -18,6 +20,13 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
       return {
         ...state,
         folder: activatedFolder,
+      };
+    case ActionTypes.SET_ACTIVE_PASSWORD:
+      return {
+        ...state,
+        password: state.folder.passwords.find(
+          (pass: any) => pass.id === action.payload
+        ),
       };
     default:
       return state;

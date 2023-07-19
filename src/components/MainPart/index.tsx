@@ -30,7 +30,7 @@ const MainPart = () => {
       <div className='content'>
         {sortedList.map((pass: any) => {
           return (
-            <div className='folder'>
+            <div className='folder' key={pass.id}>
               <div className='name'>
                 <img src={GALLERY_ICON} alt='Gallery' />
                 <span>{pass.passName}</span>

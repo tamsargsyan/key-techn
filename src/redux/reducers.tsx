@@ -14,7 +14,6 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
   switch (action.type) {
     case ActionTypes.SET_ACTIVE_FOLDER:
       const id = action.payload;
-      console.log(id);
       const activatedFolder = initialFolders.find(folder => folder.id === id);
       return {
         ...state,

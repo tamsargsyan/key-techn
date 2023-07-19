@@ -1,36 +1,14 @@
-import EYE_ICON from "../../assets/icons/eye.svg";
-import COPY_ICON from "../../assets/icons/copy.svg";
-import LOCK_ICON from "../../assets/icons/lock.svg";
-import HISTORY_ICON from "../../assets/icons/history.svg";
-import MODIFY_ICON from "../../assets/icons/modify.svg";
-import URL_ICON from "../../assets/icons/url.svg";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import "./index.css";
-import { useRef, useState } from "react";
+import eyeIcon from "../../assets/icons/eye.svg";
+import copyIcon from "../../assets/icons/copy.svg";
+import lockIcon from "../../assets/icons/lock.svg";
+import historyIcon from "../../assets/icons/history.svg";
+import modifyIcon from "../../assets/icons/modify.svg";
+import urlIcon from "../../assets/icons/url.svg";
 
 const ThirdPart = () => {
-  const btns = [
-    {
-      id: 1,
-      name: "Доступ",
-      url: LOCK_ICON,
-    },
-    {
-      id: 2,
-      name: "История",
-      url: HISTORY_ICON,
-    },
-    {
-      id: 3,
-      name: "Изменить",
-      url: MODIFY_ICON,
-    },
-    {
-      id: 4,
-      name: "Ссылка",
-      url: URL_ICON,
-    },
-  ];
-
   const [inputs, setInputs] = useState([
     {
       id: 1,
@@ -54,35 +32,45 @@ const ThirdPart = () => {
       value: "",
     },
   ]);
+  const shouldRemoveId1And2 = true;
+  const [stateModified, setStateModified] = useState(false);
+  const activatedFolderName = useSelector((state: any) => state.folder?.name);
+
+  useEffect(() => {
+    if (activatedFolderName && inputs.length > 0) {
+      setInputs(prevInputs => [
+        { ...prevInputs[0], value: activatedFolderName },
+        ...prevInputs.slice(1),
+      ]);
+    }
+  }, [activatedFolderName, inputs.length]);
+  useEffect(() => {
+    if (shouldRemoveId1And2 && !stateModified) {
+      setInputs(prevInputs =>
+        prevInputs
+          .filter(input => input.id !== 1 && input.id !== 2)
+          .map(input => ({ ...input, name: "Название", inputId: "name" }))
+      );
+      setStateModified(true);
+    }
+  }, [shouldRemoveId1And2, stateModified]);
 
   const handleChange = (txt: string, inputId: string) => {
-    const updatedInputs = inputs.map(input => {
-      if (input.inputId === inputId) {
-        return {
-          ...input,
-          value: txt,
-        };
-      }
-      return input;
-    });
-    setInputs(updatedInputs);
+    setInputs(prevInputs =>
+      prevInputs.map(input =>
+        input.inputId === inputId ? { ...input, value: txt } : input
+      )
+    );
   };
-
   const copyToClipboard = (id: number) => {
     const valueToCopy = inputs.find(input => input.id === id)?.value || "";
     navigator.clipboard
       .writeText(valueToCopy)
-      .then(() => {
-        console.log("Text copied to clipboard");
-      })
-      .catch(error => {
-        console.error("Error copying text to clipboard:", error);
-      });
+      .then(() => console.log("Text copied to clipboard"))
+      .catch(error => console.error("Error copying text to clipboard:", error));
   };
-
   const passwordRef = useRef<HTMLInputElement>(null);
-
-  const showPassword = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const showPassword = (e: any) => {
     e.preventDefault();
     if (passwordRef.current) {
       const inputElement = passwordRef.current;
@@ -92,53 +80,58 @@ const ThirdPart = () => {
   };
 
   return (
-    <div className='thidPartContainer'>
-      <div className='heading'>3nv.ru</div>
+    <div className='thirdPartContainer'>
+      <div className='heading'>
+        {shouldRemoveId1And2 ? activatedFolderName : "3nv.ru"}
+      </div>
       <div className='content'>
         <form>
-          {inputs.map(input => {
-            return (
-              <div className='formGroup' key={input.inputId}>
-                <label htmlFor={input.inputId}>{input.name}</label>
-                <input
-                  type={input.type}
-                  id={input.inputId}
-                  name={input.inputId}
-                  value={input.value}
-                  autoComplete='current-password'
-                  ref={input.id === 2 ? passwordRef : undefined}
-                  onChange={e => handleChange(e.target.value, input.inputId)}
-                  required
-                />
-                {input.id === 2 ? (
-                  <button className='eye copy' onClick={showPassword}>
-                    <img src={EYE_ICON} alt='Eye' />
-                  </button>
-                ) : null}
-                <button
-                  className='copy'
-                  onClick={e => {
-                    e.preventDefault();
-                    copyToClipboard(input.id);
-                  }}>
-                  <img src={COPY_ICON} alt='Copy' />
+          {inputs.map(input => (
+            <div className='formGroup' key={input.inputId}>
+              <label htmlFor={input.inputId}>{input.name}:</label>
+              <input
+                type={input.type}
+                id={input.inputId}
+                name={input.inputId}
+                value={input.value}
+                autoComplete={input.id === 2 ? "current-password" : undefined}
+                ref={input.id === 2 ? passwordRef : null}
+                onChange={e => handleChange(e.target.value, input.inputId)}
+                required
+              />
+              {input.id === 2 && (
+                <button className='eye copy' onClick={showPassword}>
+                  <img src={eyeIcon} alt='Eye' />
                 </button>
-              </div>
-            );
-          })}
+              )}
+              <button
+                className='copy'
+                onClick={e => {
+                  e.preventDefault();
+                  copyToClipboard(input.id);
+                }}>
+                <img src={copyIcon} alt='Copy' />
+              </button>
+            </div>
+          ))}
           <div className='formGroup textArea'>
-            <label htmlFor='message'>Комментарий:</label>
+            <label htmlFor='message'>
+              {shouldRemoveId1And2 ? "Описание" : "Комментарий"}:
+            </label>
             <textarea id='message' name='message' rows={4} required></textarea>
           </div>
           <div className='formBtns'>
-            {btns.map(btn => {
-              return (
-                <button className='formBtn' key={btn.id}>
-                  <img src={btn.url} alt={btn.name} />
-                  {btn.name}
-                </button>
-              );
-            })}
+            {[
+              { id: 1, name: "Доступ", url: lockIcon },
+              { id: 2, name: "История", url: historyIcon },
+              { id: 3, name: "Изменить", url: modifyIcon },
+              { id: 4, name: "Ссылка", url: urlIcon },
+            ].map(btn => (
+              <button className='formBtn' key={btn.id}>
+                <img src={btn.url} alt={btn.name} />
+                {btn.name}
+              </button>
+            ))}
           </div>
         </form>
       </div>

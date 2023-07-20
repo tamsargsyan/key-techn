@@ -51,7 +51,9 @@ const AccessContent = () => {
                   <span>{user.law}</span>
                   <img src={DOWN_ICON} alt='Down' />
                 </button>
-                <img src={DELETE_ICON} alt='Delete' />
+                <button className='deleteBtn'>
+                  <img src={DELETE_ICON} alt='Delete' />
+                </button>
               </div>
             </div>
           );

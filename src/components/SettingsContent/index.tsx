@@ -39,7 +39,7 @@ const SettingsContent = () => {
               </button>
             </div>
             {((btn.id === id && id === 5) || (btn.id === id && id === 4)) && (
-              <AddUser className='' onClose={() => {}} />
+              <AddUser className='' onClose={() => setId(null)} />
             )}
           </div>
         );

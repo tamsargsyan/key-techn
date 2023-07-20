@@ -1,0 +1,41 @@
+.accessContentContainer {
+  padding: 20px;
+}
+.users {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  z-index: 999;
+  background: #fff;
+  margin-bottom: 20px;
+}
+.user,
+.edit,
+.editDropdown,
+.userName {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.edit,
+.userName {
+  gap: 15px;
+}
+.edit {
+  width: 200px;
+}
+.editDropdown {
+  border-radius: 10px;
+  border: 1px solid #dfdfdf;
+  background: #fff;
+  padding: 10px 15px;
+  width: 100%;
+}
+.addUserBtn {
+  background: var(--main-color);
+  width: 100%;
+  padding: 13px 14px;
+  color: #fff;
+  border-radius: 555px;
+}

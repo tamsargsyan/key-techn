@@ -24,7 +24,7 @@ const Popup: React.FC<PopupProps> = ({ header, content, onClose }) => {
         onClick={(e: React.MouseEvent) => e.stopPropagation()}>
         <div className='popupHeader'>
           <span>{header}</span>
-          <button>
+          <button onClick={onClose}>
             <img src={CLOSE_ICON} alt='Close' />
           </button>
         </div>

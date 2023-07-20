@@ -35,7 +35,7 @@ const MainPart = () => {
           return (
             <div
               className={`${
-                activatedPassword?.id === pass.id && "activePass"
+                activatedPassword?.id === pass.id && "active"
               } folder pass`}
               key={pass.id}
               onClick={() => dispatch(setActivePassword(pass.id))}>

@@ -11,12 +11,13 @@ import DetailModal from "../DetailModal";
 import "./index.css";
 import { useDispatch } from "react-redux";
 import { setActivedFolder } from "../../redux/actions";
+import Popup from "../Popup";
 
 const btns = [
-  { id: 1, name: "Add", imgUrl: ADD_ICON },
-  { id: 2, name: "Key", imgUrl: KEY_ICON },
-  { id: 3, name: "Settings", imgUrl: SETTINGS_ICON },
-  { id: 4, name: "Search", imgUrl: SEARCH_ICON },
+  { id: 1, name: "add", rusName: "Добавить", imgUrl: ADD_ICON },
+  { id: 2, name: "access", rusName: "Доступ", imgUrl: KEY_ICON },
+  { id: 3, name: "settings", rusName: "Настройки", imgUrl: SETTINGS_ICON },
+  { id: 4, name: "search", rusName: "Поиск", imgUrl: SEARCH_ICON },
 ];
 
 const FirstPart = () => {
@@ -24,11 +25,15 @@ const FirstPart = () => {
   const [activeFolder, setActiveFolder] = useState(1);
   const [activeKey, setActiveKey] = useState<null | number>(null);
   const [value, setValue] = useState("");
-
+  const [openPopup, setOpenPopup] = useState({
+    open: false,
+    name: "",
+    rusName: "",
+  });
+  const dispatch = useDispatch();
   const handleChange = (txt: string) => {
     setValue(txt);
   };
-
   useEffect(() => {
     setFolders(
       value === ""
@@ -50,15 +55,24 @@ const FirstPart = () => {
       )
     );
   };
-  const dispatch = useDispatch();
 
   return (
     <div className='firstPartContainer'>
       <div className='header'>
         {!activeKey &&
-          btns.map(({ id, name, imgUrl }) => (
-            <button key={id} onClick={() => handleKeyClick(id)}>
-              <img src={imgUrl} alt={name} />
+          btns.map(({ id, name, imgUrl, rusName }) => (
+            <button
+              key={id}
+              onClick={() => {
+                if (id > 1 && id < 4) {
+                  setOpenPopup({
+                    open: true,
+                    name,
+                    rusName,
+                  });
+                } else if (id === 4) handleKeyClick(id);
+              }}>
+              <img src={imgUrl} alt={rusName} />
             </button>
           ))}
         {activeKey === 4 && (
@@ -75,7 +89,7 @@ const FirstPart = () => {
       <div className='content'>
         {folders.map(({ id, name }) => (
           <div
-            className={`folder ${activeFolder === id && "activeFolder"}`}
+            className={`folder ${activeFolder === id && "active"}`}
             key={id}
             onClick={() => {
               setActiveFolder(id);
@@ -100,6 +114,19 @@ const FirstPart = () => {
         <span>Разработано</span>
         <img src={LOGO} alt='Logo' />
       </div>
+      {openPopup.open && (
+        <Popup
+          onClose={() =>
+            setOpenPopup({
+              open: false,
+              name: "",
+              rusName: "",
+            })
+          }
+          header={openPopup.rusName}
+          content={openPopup.name}
+        />
+      )}
     </div>
   );
 };

@@ -10,10 +10,13 @@
 }
 .popupContainer {
   width: 500px;
-  height: auto;
-  max-height: 600px;
   border-radius: 10px;
   background: #fff;
+  overflow: hidden;
+}
+.popupContent {
+  height: inherit;
+  max-height: 600px;
   overflow-y: auto;
 }
 .popupHeader {

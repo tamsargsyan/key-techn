@@ -1,12 +1,12 @@
+import { useState } from "react";
 import USER_1 from "../../assets/people/1.png";
 import USER_2 from "../../assets/people/2.png";
 import USER_3 from "../../assets/people/3.png";
 import USER_4 from "../../assets/people/4.png";
-import DOWN_ICON from "../../assets/icons/down.svg";
 import DELETE_ICON from "../../assets/icons/delete.svg";
-import "./index.css";
+import DropdownComponent from "../Dropdown";
 import AddUser from "../AddUser";
-import { useState } from "react";
+import "./index.css";
 
 const AccessContent = () => {
   const users = [
@@ -47,10 +47,7 @@ const AccessContent = () => {
                 <span>{user.name}</span>
               </div>
               <div className='edit'>
-                <button className='editDropdown'>
-                  <span>{user.law}</span>
-                  <img src={DOWN_ICON} alt='Down' />
-                </button>
+                <DropdownComponent name={user.law} />
                 <button className='deleteBtn'>
                   <img src={DELETE_ICON} alt='Delete' />
                 </button>

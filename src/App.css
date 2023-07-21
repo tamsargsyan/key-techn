@@ -21,3 +21,13 @@ button {
 .active {
   background-color: var(--active-color);
 }
+.scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.scrollbar::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  background: #a5d0ff;
+}
+.scrollbar::-webkit-scrollbar-track {
+  background: #f2f2f2;
+}

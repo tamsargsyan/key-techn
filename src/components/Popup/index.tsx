@@ -28,7 +28,7 @@ const Popup: React.FC<PopupProps> = ({ header, content, onClose }) => {
             <img src={CLOSE_ICON} alt='Close' />
           </button>
         </div>
-        <div className='popupContent'>
+        <div className='popupContent scrollbar'>
           {ContentComponent ? (
             <ContentComponent />
           ) : (

@@ -1,0 +1,54 @@
+.colors,
+.folderIcons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  width: 350px;
+}
+.color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+.color1 {
+  background-color: #d30000;
+}
+.color2 {
+  background-color: #ff7a00;
+}
+.color3 {
+  background-color: #ffca28;
+}
+.color4 {
+  background-color: #a8f600;
+}
+.color5 {
+  background-color: #00cd15;
+}
+.color6 {
+  background-color: #00f1f1;
+}
+.color7 {
+  background-color: #4698f0;
+}
+.color8 {
+  background-color: #3300ff;
+}
+.color9 {
+  background-color: #8000ff;
+}
+.color10 {
+  background-color: #ff00d6;
+}
+.color11 {
+  background-color: #627384;
+}
+.color12 {
+  background-color: #aeaeae;
+}
+.color13 {
+  border: 1px solid #dfdfdf;
+}
+.icon {
+  padding: 0;
+}

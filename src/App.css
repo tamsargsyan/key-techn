@@ -1,6 +1,8 @@
 :root {
   --main-color: #4698f0;
   --active-color: #e8f0ff;
+  --btn-secondary-color: #627384;
+  --max-size-color: #ff0000;
 }
 *,
 *:before,
@@ -17,6 +19,7 @@ button {
   outline: none;
   border: none;
   cursor: pointer;
+  transition: 0.3s ease;
 }
 .active {
   background-color: var(--active-color);
@@ -30,4 +33,9 @@ button {
 }
 .scrollbar::-webkit-scrollbar-track {
   background: #f2f2f2;
+}
+button:disabled,
+button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

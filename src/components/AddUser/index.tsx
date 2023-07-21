@@ -2,6 +2,7 @@ import PLUS_ICON from "../../assets/icons/plus.svg";
 import CLOSE_ICON from "../../assets/icons/close.svg";
 import DropdownComponent from "../Dropdown";
 import "./index.css";
+import Button from "../Button";
 
 interface AddUserProps {
   className: string;
@@ -39,10 +40,16 @@ const AddUser: React.FC<AddUserProps> = ({ className, onClose }) => {
         </div>
       </div>
       <div className='saveCancelWrapper'>
-        <button className='saveBtn'>Сохранить</button>
-        <button className='cancelBtn' onClick={onClose}>
-          Отменить
-        </button>
+        <Button
+          text='Сохранить'
+          onClick={() => {}}
+          background='var(--main-color)'
+        />
+        <Button
+          text='Отменить'
+          onClick={onClose}
+          background='var(--btn-secondary-color)'
+        />
       </div>
     </div>
   );

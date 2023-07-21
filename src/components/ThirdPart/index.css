@@ -1,6 +1,6 @@
-.thidPartContainer .heading {
-  background-color: #e8f0ff;
-  color: #4698f0;
+.thirdPartContainer .heading {
+  background-color: #e8f0ff !important;
+  color: #4698f0 !important;
 }
 form {
   display: flex;
@@ -31,10 +31,41 @@ form {
   resize: none;
   border-radius: 10px;
   width: 100%;
+  z-index: 1;
 }
 .textArea {
   flex-direction: column;
   align-items: flex-start;
+  overflow: hidden;
+}
+.textArea .maxSymbolTextArea {
+  animation: wobble 4s ease infinite;
+}
+@keyframes wobble {
+  0% {
+    transform: translate(0, 0);
+  }
+  1.78571% {
+    transform: translate(8px, 0);
+  }
+  3.57143% {
+    transform: translate(0, 0);
+  }
+  5.35714% {
+    transform: translate(8px, 0);
+  }
+  7.14286% {
+    transform: translate(0, 0);
+  }
+  8.92857% {
+    transform: translate(8px, 0);
+  }
+  10.71429% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 .copy {
   cursor: pointer;
@@ -49,6 +80,11 @@ form {
 .formBtns {
   display: flex;
   gap: 10px;
+  transform: translateY(-100%);
+  transition: 0.3s ease;
+}
+.maxSizeFormBtns {
+  transform: translateY(0);
 }
 .formBtn {
   display: flex;
@@ -57,5 +93,18 @@ form {
   border-radius: 555px;
   background: #e8f0ff;
   padding: 10px 20px;
-  color: #4698F0;
+  color: #4698f0;
+}
+.maxSymbolTxt {
+  color: var(--max-size-color);
+  font-weight: 500;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-155%);
+  transition: 0.3s ease;
+}
+.showMaxSymbolText {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) !important;
 }

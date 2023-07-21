@@ -1,0 +1,13 @@
+.saveCancelWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+.btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 555px;
+  color: #fff;
+  font-weight: bold;
+}

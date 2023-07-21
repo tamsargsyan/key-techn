@@ -3,6 +3,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.88);
   position: fixed;
+  inset: 0;
   z-index: 999;
   display: flex;
   align-items: center;
@@ -35,4 +36,9 @@
 }
 .popupHeader button {
   padding: 0;
+}
+.popupHeaderBtns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

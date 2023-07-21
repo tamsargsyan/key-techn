@@ -10,7 +10,7 @@ import LOGO from "../../assets/logo.svg";
 import DetailModal from "../DetailModal";
 import "./index.css";
 import { useDispatch } from "react-redux";
-import { setActivedFolder } from "../../redux/actions";
+import { setActivePassword, setActivedFolder } from "../../redux/actions";
 import Popup from "../Popup";
 
 const btns = [
@@ -94,6 +94,7 @@ const FirstPart = () => {
             onClick={() => {
               setActiveFolder(id);
               dispatch(setActivedFolder(id));
+              dispatch(setActivePassword(null));
             }}>
             <img src={FOLDER_ICON} alt='Folder' />
             <span>{name}</span>
@@ -116,6 +117,7 @@ const FirstPart = () => {
       </div>
       {openPopup.open && (
         <Popup
+          modify={false}
           onClose={() =>
             setOpenPopup({
               open: false,

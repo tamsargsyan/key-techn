@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setActivePassword } from "../../redux/actions";
+import { ArrowDownOutlined } from "@ant-design/icons";
 
 const MainPart = () => {
   const activatedFolder = useSelector((state: any) => state.folder);
@@ -24,7 +25,10 @@ const MainPart = () => {
   return (
     <div className='mainPartContainer'>
       <div className='heading' onClick={handleSortClick}>
-        <div className='sortingHeader'>Название ↓</div>
+        <div
+          className={`${!sortAscending && "sortingHeaderTrue"} sortingHeader`}>
+          Название <ArrowDownOutlined />
+        </div>
         <div className='url'>URL</div>
         <div className='star'>
           <img src={STAR_ICON} alt='Star' />

@@ -1,6 +1,5 @@
 .addUserContainer {
   padding: 20px;
-  /* padding-bottom: 0; */
   transform: translateY(-100%);
   animation: reveal 0.9s ease forwards;
 }
@@ -8,43 +7,6 @@
   to {
     transform: translateY(0);
   }
-}
-.saveBtn,
-.cancelBtn {
-  width: 100%;
-  padding: 15px;
-  border-radius: 555px;
-  color: #fff;
-  font-weight: bold;
-}
-.saveBtn {
-  background: var(--main-color);
-}
-.cancelBtn {
-  background: #627384;
-}
-.dropDownMenu {
-  position: absolute;
-  left: -20px;
-  top: 20px;
-  z-index: 2;
-  background: #fff;
-  border-radius: 0px 0px 10px 10px;
-  box-shadow: 0px 0px 10px 0px rgba(183, 183, 183, 0.25);
-  flex-direction: column;
-  display: none !important;
-}
-.dropDownMenuOpen {
-  display: block !important;
-}
-.drop {
-  padding: 10px 15px;
-}
-.drop:last-child {
-  border-radius: inherit;
-}
-.drop:hover {
-  background: #ddd;
 }
 .infoSettings .name button {
   display: flex;
@@ -121,10 +83,4 @@
 }
 .addUserContainer:has(.infoSettingsBorder) {
   margin-top: 20px;
-}
-.saveCancelWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
 }

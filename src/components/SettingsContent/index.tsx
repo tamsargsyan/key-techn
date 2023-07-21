@@ -33,7 +33,7 @@ const SettingsContent = () => {
           <div key={btn.id} className='settingsBtn'>
             <div className='settingsBtnWrapper'>
               <button
-                className={`${btn.id === id && "active"} btn`}
+                className={`${btn.id === id && "active"}`}
                 onClick={() => setId(btn.id)}>
                 {btn.name}
               </button>

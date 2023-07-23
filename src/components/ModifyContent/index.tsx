@@ -15,6 +15,7 @@ import {
   addPass,
   changeFolderValue,
   changePasswordValue,
+  setActivePassword,
 } from "../../redux/actions";
 
 interface ModifyContentProps {
@@ -146,11 +147,12 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose, change }) => {
                   changePasswordValue(
                     activatedFolder.id,
                     activatedPassword.id,
-                    inputConfigs[0].value
+                    inputConfigs.map(input => input.value)
                   )
                 )
               : dispatch(changeFolderValue(inputConfigs[0].value));
           }
+          dispatch(setActivePassword(undefined));
         }}
       />
     </div>

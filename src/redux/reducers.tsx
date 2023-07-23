@@ -118,17 +118,22 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
         ),
       };
     case ActionTypes.CHANGE_PASSWORD_VALUE:
-      const { activeFolderId, activePasswordId, value } = action.payload;
+      const { activeFolderId, activePasswordId, configs } = action.payload;
       return {
         ...state,
         folders: state.folders.map(folder => {
-          console.log(folder);
           if (folder.id === activeFolderId) {
             return {
               ...folder,
               passwords: folder.passwords.map(password =>
                 password.id === activePasswordId
-                  ? { ...password, passName: value }
+                  ? {
+                      ...password,
+                      passName: configs[0],
+                      login: configs[1],
+                      pass: configs[2],
+                      url: configs[4],
+                    }
                   : password
               ),
             };

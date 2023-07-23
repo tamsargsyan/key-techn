@@ -82,12 +82,8 @@ const ThirdPart = () => {
             setInputConfigs={setInputConfigs}
             modify={false}
             icons={undefined}
-            onClick={function (): void | undefined {
-              throw new Error("Function not implemented.");
-            }}
-            onClose={function (): void {
-              throw new Error("Function not implemented.");
-            }}
+            onClick={undefined}
+            onClose={undefined}
           />
         </div>
       ) : (
@@ -96,6 +92,7 @@ const ThirdPart = () => {
       {openPopup.open && (
         <Popup
           modify={openPopup.name === "modify"}
+          change={openPopup.name === "modify" && true}
           onClose={() =>
             setOpenPopup({
               open: false,
@@ -106,7 +103,7 @@ const ThirdPart = () => {
           header={`${openPopup.rusName} 
             ${
               (openPopup.name === "modify" &&
-                (activatedPassword ? "пароль" : "папку")) ||
+                (activatedPassword ? "пароль" : "папкуaaaaaaaaaaaaa")) ||
               ""
             }
           `}

@@ -10,13 +10,19 @@ import Form from "../Form";
 import "./index.css";
 import { AppState } from "../../redux/reducers";
 import { useDispatch } from "react-redux";
-import { addFolder, addPass } from "../../redux/actions";
+import {
+  addFolder,
+  addPass,
+  changeFolderValue,
+  changePasswordValue,
+} from "../../redux/actions";
 
 interface ModifyContentProps {
   onClose: () => void;
+  change: boolean;
 }
 
-const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
+const ModifyContent: React.FC<ModifyContentProps> = ({ onClose, change }) => {
   const activatedFolder = useSelector((state: AppState) => state.folder);
   const activatedPassword = useSelector((state: AppState) => state.password);
   const addPassState = useSelector((state: AppState) => state.addPassState);
@@ -128,10 +134,22 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
         icons={icons}
         onClick={() => {
           const values = inputConfigs.map(item => item.value);
-          if (addPassState) {
-            dispatch(addPass(values));
+          if (!change) {
+            if (addPassState) {
+              dispatch(addPass(values));
+            } else {
+              dispatch(addFolder(inputConfigs[0].value));
+            }
           } else {
-            dispatch(addFolder(inputConfigs[0].value));
+            activatedPassword
+              ? dispatch(
+                  changePasswordValue(
+                    activatedFolder.id,
+                    activatedPassword.id,
+                    inputConfigs[0].value
+                  )
+                )
+              : dispatch(changeFolderValue(inputConfigs[0].value));
           }
         }}
       />

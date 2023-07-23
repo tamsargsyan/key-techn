@@ -111,14 +111,14 @@ const MainPart = () => {
       </div>
       {openPopup.open && (
         <Popup
-          modify={false}
-          onClose={() =>
+          onClose={() => {
             setOpenPopup({
               open: false,
               name: "",
               rusName: "",
-            })
-          }
+            });
+            dispatch(setAddPass(false));
+          }}
           header={openPopup.rusName}
           content={openPopup.name}
         />

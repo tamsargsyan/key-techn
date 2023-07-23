@@ -65,12 +65,14 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
         addPassState: action.payload,
       };
     case ActionTypes.ADD_PASS:
-      const passId =
-        state.folders[state.folders.length - 1].passwords.length > 0
-          ? state.folders[state.folders.length - 1].passwords[
-              state.folders[state.folders.length - 1].passwords.length - 1
-            ].id + 1
-          : 1;
+      const activeIndex = state.folders.findIndex(
+        folder => folder.id === state.folder.id
+      );
+      const passId = state.folders[activeIndex].passwords.length
+        ? state.folders[activeIndex].passwords[
+            state.folders[activeIndex].passwords.length - 1
+          ].id + 1
+        : 1;
       const values = action.payload;
       const newPasswordItem = {
         id: passId,
@@ -106,6 +108,36 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
         ...state,
         folders: removedPasswords,
       };
+    case ActionTypes.CHANGE_FOLDER_VALUE:
+      return {
+        ...state,
+        folders: state.folders.map(folder =>
+          folder.id === state.folder.id
+            ? { ...folder, name: action.payload }
+            : folder
+        ),
+      };
+    case ActionTypes.CHANGE_PASSWORD_VALUE:
+      const { activeFolderId, activePasswordId, value } = action.payload;
+      return {
+        ...state,
+        folders: state.folders.map(folder => {
+          console.log(folder);
+          if (folder.id === activeFolderId) {
+            return {
+              ...folder,
+              passwords: folder.passwords.map(password =>
+                password.id === activePasswordId
+                  ? { ...password, passName: value }
+                  : password
+              ),
+            };
+          } else {
+            return folder;
+          }
+        }),
+      };
+
     default:
       return state;
   }

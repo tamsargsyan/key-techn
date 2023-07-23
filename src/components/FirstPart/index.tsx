@@ -150,7 +150,6 @@ const FirstPart = () => {
       </div>
       {openPopup.open && (
         <Popup
-          modify={false}
           onClose={() =>
             setOpenPopup({
               open: false,

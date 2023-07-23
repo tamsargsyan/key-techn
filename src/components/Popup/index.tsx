@@ -9,7 +9,8 @@ interface PopupProps {
   header: string;
   onClose: () => void;
   content: string;
-  modify: boolean;
+  modify?: boolean;
+  change?: boolean;
 }
 const contentComponents: { [key: string]: React.FC<any> } = {
   access: AccessContent,
@@ -17,7 +18,13 @@ const contentComponents: { [key: string]: React.FC<any> } = {
   modify: ModifyContent,
 };
 
-const Popup: React.FC<PopupProps> = ({ header, content, onClose, modify }) => {
+const Popup: React.FC<PopupProps> = ({
+  header,
+  content,
+  onClose,
+  modify,
+  change,
+}) => {
   const ContentComponent = contentComponents[content];
 
   return (
@@ -40,7 +47,7 @@ const Popup: React.FC<PopupProps> = ({ header, content, onClose, modify }) => {
         </div>
         <div className='popupContent scrollbar'>
           {ContentComponent ? (
-            <ContentComponent onClose={onClose} />
+            <ContentComponent onClose={onClose} change={change} />
           ) : (
             <div>Content not found!</div>
           )}

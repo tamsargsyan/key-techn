@@ -40,9 +40,9 @@ interface FormProps {
   setOpenPopup: any;
   setInputConfigs: any;
   modify: boolean;
-  icons: IconConfig[] | undefined;
-  onClick: () => void | undefined;
-  onClose: () => void;
+  icons?: IconConfig[];
+  onClick?: () => void;
+  onClose?: () => void;
 }
 
 const Form: React.FC<FormProps> = ({
@@ -303,8 +303,8 @@ const Form: React.FC<FormProps> = ({
             <Button
               text='Сохранить'
               onClick={() => {
-                onClick();
-                onClose();
+                onClick && onClick();
+                onClose && onClose();
                 dispatch(setAddFolder(false));
                 dispatch(setAddPass(false));
               }}
@@ -312,7 +312,7 @@ const Form: React.FC<FormProps> = ({
             />
             <Button
               text='Отменить'
-              onClick={onClose}
+              onClick={onClose && onClose}
               background='var(--btn-secondary-color)'
             />
           </div>

@@ -41,3 +41,19 @@ export const removePass = (id: number): SetActivateAction => ({
   type: ActionTypes.REMOVE_PASS,
   payload: id,
 });
+export const changeFolderValue = (val: string): SetActivateAction => ({
+  type: ActionTypes.CHANGE_FOLDER_VALUE,
+  payload: val,
+});
+export const changePasswordValue = (
+  activeFolderId: number,
+  activePasswordId: number,
+  value: string
+): SetActivateAction => ({
+  type: ActionTypes.CHANGE_PASSWORD_VALUE,
+  payload: {
+    activeFolderId,
+    activePasswordId,
+    value,
+  },
+});

@@ -11,12 +11,16 @@ import arrowIcon from "../../assets/icons/arrow.svg";
 import weakIcon from "../../assets/icons/error.svg";
 import againIcon from "../../assets/icons/again.svg";
 import emptyFolderIcon from "../../assets/icons/folder/empty-folder.svg";
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import Button from "../Button";
 import "./index.css";
 import { AppState } from "../../redux/reducers";
-import { setAddFolder } from "../../redux/actions";
+import {
+  setActivedFolder,
+  setAddFolder,
+  setAddPass,
+} from "../../redux/actions";
 import { useDispatch } from "react-redux";
 
 interface InputConfig {
@@ -105,6 +109,17 @@ const Form: React.FC<FormProps> = ({
   }, []);
   const [chapterId, setChapterId] = useState<null | number>(null);
   const [openChapter, setOpenChapter] = useState(false);
+  const folders = useSelector((state: AppState) => state.folders);
+  const activedFolder = useSelector((state: AppState) => state.folder);
+  useEffect(() => {
+    folders &&
+      activedFolder &&
+      dispatch(
+        setActivedFolder(
+          folders.find(folder => folder.id === activedFolder.id)?.id
+        )
+      );
+  }, [folders, dispatch, activedFolder]);
   return (
     <form className='formContainer' onSubmit={e => e.preventDefault()}>
       {inputConfigs.map(input => (
@@ -291,6 +306,7 @@ const Form: React.FC<FormProps> = ({
                 onClick();
                 onClose();
                 dispatch(setAddFolder(false));
+                dispatch(setAddPass(false));
               }}
               background='var(--main-color)'
             />

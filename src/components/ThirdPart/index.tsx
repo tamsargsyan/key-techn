@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import Popup from "../Popup";
 import "./index.css";
 import Form from "../Form";
-import { initialFolders } from "../../data/index";
 import { AppState } from "../../redux/reducers";
 
 interface OpenPopupState {
@@ -30,13 +29,14 @@ const ThirdPart = () => {
         name: "Название",
         type: "text",
         inputId: "name",
-        value: activatedFolderName,
+        value: activatedFolderName || "",
         autoComplete: "name",
       },
     ],
     [activatedFolderName]
   );
   const [inputConfigs, setInputConfigs] = useState(initialInputs);
+  const folders = useSelector((state: AppState) => state.folders);
   useEffect(() => {
     if (activatedPassword) {
       setInputConfigs([
@@ -74,7 +74,7 @@ const ThirdPart = () => {
       <div className='heading'>
         {!activatedPassword ? activatedFolderName : activatedPassword?.url}
       </div>
-      {initialFolders.length && !addFolderState ? (
+      {folders.length && !addFolderState ? (
         <div className='content'>
           <Form
             setOpenPopup={setOpenPopup}

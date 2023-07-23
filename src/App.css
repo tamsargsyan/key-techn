@@ -47,3 +47,6 @@ button[disabled] {
     transform: translateY(0);
   }
 }
+.detailModal {
+  opacity: 1 !important;
+}

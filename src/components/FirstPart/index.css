@@ -32,9 +32,6 @@
   margin-left: auto;
   transition: 0.3s ease;
 }
-.folderDetail {
-  opacity: 1 !important;
-}
 .content {
   width: 100%;
 }
@@ -64,4 +61,12 @@
   align-items: center;
   gap: 10px;
   width: 100%;
+}
+.searchCloseBtn {
+  width: 20px;
+  height: 20px;
+}
+.searchCloseBtn img {
+  width: 100%;
+  height: 100%;
 }

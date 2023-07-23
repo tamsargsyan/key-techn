@@ -10,7 +10,7 @@ import Form from "../Form";
 import "./index.css";
 import { AppState } from "../../redux/reducers";
 import { useDispatch } from "react-redux";
-import { addFolder } from "../../redux/actions";
+import { addFolder, addPass } from "../../redux/actions";
 
 interface ModifyContentProps {
   onClose: () => void;
@@ -19,7 +19,8 @@ interface ModifyContentProps {
 const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
   const activatedFolder = useSelector((state: AppState) => state.folder);
   const activatedPassword = useSelector((state: AppState) => state.password);
-  const addFolderState = useSelector((state: AppState) => state.addFolderState);
+  const addPassState = useSelector((state: AppState) => state.addPassState);
+  const dispatch = useDispatch();
   const initialInputs = useMemo(
     () => [
       {
@@ -27,8 +28,7 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
         name: "Название",
         type: "text",
         inputId: "name",
-        value:
-          addFolderState && activatedFolder.name ? "" : activatedFolder.name,
+        value: activatedFolder?.name || "",
         autoComplete: "name",
       },
       {
@@ -40,21 +40,18 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
         autoComplete: "chapter",
       },
     ],
-    [activatedFolder.name, addFolderState]
+    [activatedFolder?.name]
   );
   const [inputConfigs, setInputConfigs] = useState(initialInputs);
   useEffect(() => {
-    if (activatedPassword || !activatedFolder.passwords.length) {
+    if (activatedPassword || addPassState) {
       setInputConfigs([
         {
           id: 1,
           name: "Название",
           type: "text",
           inputId: "name",
-          value:
-            addFolderState || !activatedFolder.passwords.length
-              ? ""
-              : activatedFolder.name || "",
+          value: activatedPassword?.passName || "",
           autoComplete: "name",
         },
         {
@@ -62,10 +59,7 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
           name: "Логин",
           type: "email",
           inputId: "login",
-          value:
-            addFolderState || !activatedFolder.passwords.length
-              ? ""
-              : activatedPassword?.login || "",
+          value: activatedPassword?.login || "",
           autoComplete: "username",
         },
         {
@@ -73,10 +67,7 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
           name: "Пароль",
           type: "text",
           inputId: "pass",
-          value:
-            addFolderState || !activatedFolder.passwords.length
-              ? ""
-              : activatedPassword?.pass || "",
+          value: activatedPassword?.pass || "",
           autoComplete: "current-password",
         },
         {
@@ -84,10 +75,7 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
           name: "Повторите",
           type: "text",
           inputId: "pass",
-          value:
-            addFolderState || !activatedFolder.passwords.length
-              ? ""
-              : activatedPassword?.pass || "",
+          value: activatedPassword?.pass || "",
           autoComplete: "current-password",
         },
         {
@@ -95,23 +83,14 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
           name: "URL",
           type: "text",
           inputId: "url",
-          value:
-            addFolderState || !activatedFolder.passwords.length
-              ? ""
-              : activatedPassword?.url || "",
+          value: activatedPassword?.url || "",
           autoComplete: "url",
         },
       ]);
     } else {
       setInputConfigs(initialInputs);
     }
-  }, [
-    activatedPassword,
-    activatedFolder.name,
-    initialInputs,
-    addFolderState,
-    activatedFolder.passwords.length,
-  ]);
+  }, [activatedPassword, initialInputs, addPassState, activatedFolder]);
   const icons = [
     {
       id: 1,
@@ -138,8 +117,6 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
       img: FOLDER_6,
     },
   ];
-  const dispatch = useDispatch();
-
   return (
     <div className='modifyContentContainer'>
       <Form
@@ -150,7 +127,12 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
         modify={true}
         icons={icons}
         onClick={() => {
-          dispatch(addFolder(inputConfigs[0].value));
+          const values = inputConfigs.map(item => item.value);
+          if (addPassState) {
+            dispatch(addPass(values));
+          } else {
+            dispatch(addFolder(inputConfigs[0].value));
+          }
         }}
       />
     </div>

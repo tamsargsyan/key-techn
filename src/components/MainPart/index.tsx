@@ -4,36 +4,50 @@ import DETAILS_ICON from "../../assets/icons/detail.svg";
 import GALLERY_ICON from "../../assets/icons/gallery.svg";
 import "./index.css";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setActivePassword } from "../../redux/actions";
+import { removePass, setActivePassword, setAddPass } from "../../redux/actions";
 import { ArrowDownOutlined } from "@ant-design/icons";
 import AddFolder from "../AddFolder";
 import { AppState } from "../../redux/reducers";
 import Popup from "../Popup";
+import { PasswordProps } from "../../data";
+import DetailModal from "../DetailModal";
 
 const MainPart = () => {
-  const activatedFolder = useSelector((state: AppState) => state.folder);
+  const activatedPassword = useSelector((state: AppState) => state.password);
+  const activedFolder = useSelector((state: AppState) => state.folder);
+  const addFolderState = useSelector((state: AppState) => state.addFolderState);
   const [sortAscending, setSortAscending] = useState(true);
   const dispatch = useDispatch();
+  const [passwords, setPasswords] = useState<null | PasswordProps[]>(null);
+  useEffect(() => {
+    activedFolder?.passwords && setPasswords(activedFolder.passwords);
+  }, [activedFolder?.passwords]);
   const sortedList =
-    activatedFolder &&
-    [...activatedFolder.passwords].sort((a, b) =>
+    passwords &&
+    [...passwords].sort((a, b) =>
       sortAscending
         ? a.passName.localeCompare(b.passName)
         : b.passName.localeCompare(a.passName)
     );
-  const handleSortClick = () => {
-    setSortAscending(!sortAscending);
-  };
-  const activatedPassword = useSelector((state: AppState) => state.password);
-  const addFolderState = useSelector((state: AppState) => state.addFolderState);
   const [openPopup, setOpenPopup] = useState({
     open: false,
     name: "",
     rusName: "",
   });
-  console.log(activatedFolder);
+  const togglePassOpen = (id: number) => {
+    setPasswords(
+      prevPass =>
+        prevPass &&
+        prevPass.map(pass =>
+          pass.id === id ? { ...pass, isOpen: !pass.isOpen } : pass
+        )
+    );
+  };
+  const handleSortClick = () => {
+    setSortAscending(!sortAscending);
+  };
   return (
     <div className='mainPartContainer'>
       <div className='heading' onClick={handleSortClick}>
@@ -48,7 +62,7 @@ const MainPart = () => {
       </div>
       <div className='content'>
         {sortedList?.length && !addFolderState ? (
-          sortedList.map((pass: any) => {
+          sortedList.map((pass: PasswordProps) => {
             return (
               <div
                 className={`${
@@ -64,9 +78,20 @@ const MainPart = () => {
                   <span>{pass.url}</span>
                 </div>
                 <div className='star'>
-                  <img src={DETAILS_ICON} alt='Details' />
+                  <button
+                    className={`${
+                      activatedPassword?.id === pass.id && "detailModal"
+                    }`}
+                    onClick={() => togglePassOpen(pass.id)}>
+                    <img src={DETAILS_ICON} alt='Details' />
+                  </button>
                   <img src={STAR_TRANSPARENT_ICON} alt='Star' />
                 </div>
+                <DetailModal
+                  className='passwordDetails'
+                  remove={() => dispatch(removePass(pass.id))}
+                  isOpen={passwords?.find(pass => pass.isOpen)?.id === pass.id}
+                />
               </div>
             );
           })
@@ -79,6 +104,7 @@ const MainPart = () => {
                 name: "modify",
                 rusName: "create password",
               });
+              dispatch(setAddPass(true));
             }}
           />
         )}

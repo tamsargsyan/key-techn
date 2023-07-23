@@ -1,14 +1,17 @@
+export interface PasswordProps {
+  id: number;
+  passName: string;
+  pass: string;
+  login: string;
+  url: string;
+  isOpen: boolean;
+}
+
 export interface FolderProps {
   id: number;
   name: string;
   isOpen: boolean;
-  passwords: {
-    id: number;
-    passName: string;
-    pass: string;
-    login: string;
-    url: string;
-  }[];
+  passwords: PasswordProps[];
 }
 
 export const initialFolders: FolderProps[] = [
@@ -23,6 +26,7 @@ export const initialFolders: FolderProps[] = [
         pass: "1234567",
         login: "user1",
         url: "https://www.site.com",
+        isOpen: false,
       },
       {
         id: 2,
@@ -30,6 +34,7 @@ export const initialFolders: FolderProps[] = [
         pass: "123456f",
         login: "user2",
         url: "https://www.site.com",
+        isOpen: false,
       },
       {
         id: 3,
@@ -37,6 +42,7 @@ export const initialFolders: FolderProps[] = [
         pass: "123456f",
         login: "user3",
         url: "https://www.site.com",
+        isOpen: false,
       },
       {
         id: 4,
@@ -44,6 +50,7 @@ export const initialFolders: FolderProps[] = [
         pass: "123456f",
         login: "menq123",
         url: "https://www.site.com",
+        isOpen: false,
       },
       {
         id: 5,
@@ -51,6 +58,7 @@ export const initialFolders: FolderProps[] = [
         pass: "123456f",
         login: "user4",
         url: "https://www.site.com",
+        isOpen: false,
       },
     ],
   },
@@ -65,6 +73,7 @@ export const initialFolders: FolderProps[] = [
         pass: "654321s",
         login: "user6",
         url: "https://www.site.com",
+        isOpen: false,
       },
       {
         id: 2,
@@ -72,6 +81,7 @@ export const initialFolders: FolderProps[] = [
         pass: "123456f",
         login: "user7",
         url: "https://www.site.com",
+        isOpen: false,
       },
     ],
   },
@@ -86,6 +96,7 @@ export const initialFolders: FolderProps[] = [
         pass: "89898989",
         login: "user7",
         url: "https://www.site.com",
+        isOpen: false,
       },
       {
         id: 2,
@@ -93,6 +104,7 @@ export const initialFolders: FolderProps[] = [
         pass: "000000",
         login: "ki234",
         url: "https://www.site.com",
+        isOpen: false,
       },
     ],
   },

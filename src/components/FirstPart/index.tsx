@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { initialFolders, FolderProps } from "../../data";
+import { FolderProps } from "../../data";
 import ADD_ICON from "../../assets/icons/add.svg";
 import KEY_ICON from "../../assets/icons/key.svg";
 import SETTINGS_ICON from "../../assets/icons/settings.svg";
@@ -10,8 +10,15 @@ import LOGO from "../../assets/logo.svg";
 import DetailModal from "../DetailModal";
 import "./index.css";
 import { useDispatch } from "react-redux";
-import { setActivePassword, setActivedFolder } from "../../redux/actions";
+import {
+  setActivePassword,
+  setActivedFolder,
+  setAddFolder,
+} from "../../redux/actions";
 import Popup from "../Popup";
+import AddFolder from "../AddFolder";
+import { AppState } from "../../redux/reducers";
+import { useSelector } from "react-redux";
 
 const btns = [
   { id: 1, name: "add", rusName: "Добавить", imgUrl: ADD_ICON },
@@ -21,6 +28,7 @@ const btns = [
 ];
 
 const FirstPart = () => {
+  const initialFolders = useSelector((state: AppState) => state.folders);
   const [folders, setFolders] = useState<FolderProps[]>(initialFolders);
   const [activeFolder, setActiveFolder] = useState(1);
   const [activeKey, setActiveKey] = useState<null | number>(null);
@@ -42,7 +50,7 @@ const FirstPart = () => {
             folder.name.toLowerCase().includes(value.toLowerCase())
           )
     );
-  }, [value]);
+  }, [value, initialFolders]);
 
   const handleKeyClick = (id: number) => {
     setActiveKey(id);
@@ -55,7 +63,7 @@ const FirstPart = () => {
       )
     );
   };
-
+  const addFolderState = useSelector((state: AppState) => state.addFolderState);
   return (
     <div className='firstPartContainer'>
       <div className='header'>
@@ -63,7 +71,12 @@ const FirstPart = () => {
           btns.map(({ id, name, imgUrl, rusName }) => (
             <button
               key={id}
+              disabled={!initialFolders.length && id > 1}
               onClick={() => {
+                if (id === 1) {
+                  // dispatch(setActiveFolder(null))
+                  dispatch(setAddFolder(!addFolderState));
+                }
                 if (id > 1 && id < 4) {
                   setOpenPopup({
                     open: true,
@@ -87,29 +100,42 @@ const FirstPart = () => {
         )}
       </div>
       <div className='content'>
-        {folders.map(({ id, name }) => (
-          <div
-            className={`folder ${activeFolder === id && "active"}`}
-            key={id}
-            onClick={() => {
-              setActiveFolder(id);
-              dispatch(setActivedFolder(id));
-              dispatch(setActivePassword(null));
-            }}>
-            <img src={FOLDER_ICON} alt='Folder' />
-            <span>{name}</span>
-            <button
-              className={`${
-                activeKey === 4 && activeFolder === id && "folderDetail"
-              }`}
-              onClick={() => toggleFolderOpen(id)}>
-              <img src={DETAIL_ICON} alt='Detail' />
-            </button>
-            <DetailModal
-              isOpen={folders.find(folder => folder.isOpen)?.id === id}
-            />
-          </div>
-        ))}
+        {folders.length && !addFolderState ? (
+          folders.map(({ id, name }) => (
+            <div
+              className={`folder ${activeFolder === id && "active"}`}
+              key={id}
+              onClick={() => {
+                setActiveFolder(id);
+                dispatch(setActivedFolder(id));
+                dispatch(setActivePassword(null));
+              }}>
+              <img src={FOLDER_ICON} alt='Folder' />
+              <span>{name}</span>
+              <button
+                className={`${
+                  activeKey === 4 && activeFolder === id && "folderDetail"
+                }`}
+                onClick={() => toggleFolderOpen(id)}>
+                <img src={DETAIL_ICON} alt='Detail' />
+              </button>
+              <DetailModal
+                isOpen={folders.find(folder => folder.isOpen)?.id === id}
+              />
+            </div>
+          ))
+        ) : (
+          <AddFolder
+            text='Добавить папку'
+            onClick={() =>
+              setOpenPopup({
+                open: true,
+                name: "modify",
+                rusName: "create folder",
+              })
+            }
+          />
+        )}
       </div>
       <div className='copyRight'>
         <span>Разработано</span>

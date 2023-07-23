@@ -78,9 +78,6 @@
 .addUserContainer:has(.infoSettingsBorder) {
   padding: 0;
 }
-.addUserHeader button {
-  padding: 0;
-}
 .addUserContainer:has(.infoSettingsBorder) {
   margin-top: 20px;
 }

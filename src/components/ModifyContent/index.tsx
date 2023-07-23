@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import FOLDER_1 from "../../assets/icons/folder/1.svg";
 import FOLDER_2 from "../../assets/icons/folder/2.svg";
@@ -6,35 +6,111 @@ import FOLDER_3 from "../../assets/icons/folder/3.svg";
 import FOLDER_4 from "../../assets/icons/folder/4.svg";
 import FOLDER_5 from "../../assets/icons/folder/5.svg";
 import FOLDER_6 from "../../assets/icons/folder/6.svg";
+import Form from "../Form";
 import "./index.css";
-import Button from "../Button";
+import { AppState } from "../../redux/reducers";
+import { useDispatch } from "react-redux";
+import { addFolder } from "../../redux/actions";
 
-const ModifyContent = () => {
-  const activatedFolderName = useSelector((state: any) => state.folder?.name);
-  const activatedPassword = useSelector((state: any) => state.password);
+interface ModifyContentProps {
+  onClose: () => void;
+}
 
-  const [inputs, setInputs] = useState([
-    {
-      id: 1,
-      name: "Название",
-      type: "text",
-      inputId: "text",
-      value: "",
-    },
-    {
-      id: 2,
-      name: "Раздел",
-      type: "text",
-      inputId: "text",
-      value: "",
-    },
-    // {
-    //   id: 3,
-    //   name: "URL",
-    //   type: "text",
-    //   inputId: "url",
-    //   value: "",
-    // },
+const ModifyContent: React.FC<ModifyContentProps> = ({ onClose }) => {
+  const activatedFolder = useSelector((state: AppState) => state.folder);
+  const activatedPassword = useSelector((state: AppState) => state.password);
+  const addFolderState = useSelector((state: AppState) => state.addFolderState);
+  const initialInputs = useMemo(
+    () => [
+      {
+        id: 1,
+        name: "Название",
+        type: "text",
+        inputId: "name",
+        value:
+          addFolderState && activatedFolder.name ? "" : activatedFolder.name,
+        autoComplete: "name",
+      },
+      {
+        id: 2,
+        name: "Раздел",
+        type: "text",
+        inputId: "chapter",
+        value: "",
+        autoComplete: "chapter",
+      },
+    ],
+    [activatedFolder.name, addFolderState]
+  );
+  const [inputConfigs, setInputConfigs] = useState(initialInputs);
+  useEffect(() => {
+    if (activatedPassword || !activatedFolder.passwords.length) {
+      setInputConfigs([
+        {
+          id: 1,
+          name: "Название",
+          type: "text",
+          inputId: "name",
+          value:
+            addFolderState || !activatedFolder.passwords.length
+              ? ""
+              : activatedFolder.name || "",
+          autoComplete: "name",
+        },
+        {
+          id: 2,
+          name: "Логин",
+          type: "email",
+          inputId: "login",
+          value:
+            addFolderState || !activatedFolder.passwords.length
+              ? ""
+              : activatedPassword?.login || "",
+          autoComplete: "username",
+        },
+        {
+          id: 3,
+          name: "Пароль",
+          type: "text",
+          inputId: "pass",
+          value:
+            addFolderState || !activatedFolder.passwords.length
+              ? ""
+              : activatedPassword?.pass || "",
+          autoComplete: "current-password",
+        },
+        {
+          id: 4,
+          name: "Повторите",
+          type: "text",
+          inputId: "pass",
+          value:
+            addFolderState || !activatedFolder.passwords.length
+              ? ""
+              : activatedPassword?.pass || "",
+          autoComplete: "current-password",
+        },
+        {
+          id: 5,
+          name: "URL",
+          type: "text",
+          inputId: "url",
+          value:
+            addFolderState || !activatedFolder.passwords.length
+              ? ""
+              : activatedPassword?.url || "",
+          autoComplete: "url",
+        },
+      ]);
+    } else {
+      setInputConfigs(initialInputs);
+    }
+  }, [
+    activatedPassword,
+    activatedFolder.name,
+    initialInputs,
+    addFolderState,
+    activatedFolder.passwords.length,
   ]);
   const icons = [
     {
@@ -62,72 +138,21 @@ const ModifyContent = () => {
       img: FOLDER_6,
     },
   ];
-  const handleChange = useCallback((txt: string, inputId: string) => {
-    setInputs(prevInputs =>
-      prevInputs.map(input =>
-        input.inputId === inputId ? { ...input, value: txt } : input
-      )
-    );
-  }, []);
+  const dispatch = useDispatch();
+
   return (
     <div className='modifyContentContainer'>
-      <form>
-        {inputs.map(input => (
-          <div className='formGroup' key={input.id}>
-            <label htmlFor={input.inputId}>{input.name}:</label>
-            <input
-              type={input.type}
-              id={input.inputId}
-              name={input.inputId}
-              value={input.value}
-              autoComplete={input.id === 2 ? "current-password" : undefined}
-              // ref={input.id === 2 ? passwordRef : null}
-              onChange={e => handleChange(e.target.value, input.inputId)}
-              required
-            />
-          </div>
-        ))}
-        <div className='formGroup textArea'>
-          <label htmlFor='message'>
-            {!activatedPassword ? "Описание" : "Комментарий"}:
-          </label>
-          <textarea rows={4} cols={80} />
-        </div>
-        <div className='formGroup'>
-          <label htmlFor='color'>Цвет папки:</label>
-          <div className='colors'>
-            {Array(13)
-              .fill(null)
-              .map((_, i) => {
-                return <div className={`color${i + 1} color`} key={i}></div>;
-              })}
-          </div>
-        </div>
-        <div className='formGroup'>
-          <label htmlFor='folder'>Иконка папки:</label>
-          <div className='folderIcons'>
-            {icons.map((icon, i) => {
-              return (
-                <button className={`icon${i + 1} icon`} key={i}>
-                  <img src={icon.img} alt='Folder' />
-                </button>
-              );
-            })}
-          </div>
-        </div>
-        <div className='saveCancelWrapper'>
-          <Button
-            text='Сохранить'
-            onClick={() => {}}
-            background='var(--main-color)'
-          />
-          <Button
-            text='Отменить'
-            onClick={() => {}}
-            background='var(--btn-secondary-color)'
-          />
-        </div>
-      </form>
+      <Form
+        setOpenPopup={undefined}
+        onClose={onClose}
+        inputConfigs={inputConfigs}
+        setInputConfigs={setInputConfigs}
+        modify={true}
+        icons={icons}
+        onClick={() => {
+          dispatch(addFolder(inputConfigs[0].value));
+        }}
+      />
     </div>
   );
 };

@@ -1,7 +1,6 @@
 export interface FolderProps {
   id: number;
   name: string;
-  url: string;
   isOpen: boolean;
   passwords: {
     id: number;
@@ -16,7 +15,6 @@ export const initialFolders: FolderProps[] = [
   {
     id: 1,
     name: "Folder 1",
-    url: "",
     isOpen: false,
     passwords: [
       {
@@ -59,7 +57,6 @@ export const initialFolders: FolderProps[] = [
   {
     id: 2,
     name: "Folder 2",
-    url: "",
     isOpen: false,
     passwords: [
       {
@@ -81,7 +78,6 @@ export const initialFolders: FolderProps[] = [
   {
     id: 3,
     name: "Folder 3",
-    url: "",
     isOpen: false,
     passwords: [
       {

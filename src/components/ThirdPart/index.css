@@ -2,109 +2,18 @@
   background-color: #e8f0ff !important;
   color: #4698f0 !important;
 }
-form {
+.noItem {
+  color: #d2d1d2;
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: auto;
+  padding: 20px;
+  width: 340px;
+  height: 70vh;
   display: flex;
-  flex-direction: column;
-  padding: 15px;
-  gap: 20px;
-}
-.formGroup {
-  display: flex;
-  gap: 10px;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
-}
-.formGroup label {
-  font-weight: bold;
-}
-.formGroup input,
-.formGroup textarea {
-  border-radius: 50px;
-  border: 1px solid #dfdfdf;
-  outline: none;
-  padding: 10px;
-  padding-left: 15px;
-  width: 350px;
-}
-.formGroup textarea {
-  resize: none;
-  border-radius: 10px;
-  width: 100%;
-  z-index: 1;
-}
-.textArea {
-  flex-direction: column;
-  align-items: flex-start;
-  overflow: hidden;
-}
-.textArea .maxSymbolTextArea {
-  animation: wobble 4s ease infinite;
-}
-@keyframes wobble {
-  0% {
-    transform: translate(0, 0);
-  }
-  1.78571% {
-    transform: translate(8px, 0);
-  }
-  3.57143% {
-    transform: translate(0, 0);
-  }
-  5.35714% {
-    transform: translate(8px, 0);
-  }
-  7.14286% {
-    transform: translate(0, 0);
-  }
-  8.92857% {
-    transform: translate(8px, 0);
-  }
-  10.71429% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-.copy {
-  cursor: pointer;
-  position: absolute;
-  right: 13px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.eye {
-  right: 40px;
-}
-.formBtns {
-  display: flex;
-  gap: 10px;
-  transform: translateY(-100%);
-  transition: 0.3s ease;
-}
-.maxSizeFormBtns {
-  transform: translateY(0);
-}
-.formBtn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border-radius: 555px;
-  background: #e8f0ff;
-  padding: 10px 20px;
-  color: #4698f0;
-}
-.maxSymbolTxt {
-  color: var(--max-size-color);
-  font-weight: 500;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-155%);
-  transition: 0.3s ease;
-}
-.showMaxSymbolText {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) !important;
 }

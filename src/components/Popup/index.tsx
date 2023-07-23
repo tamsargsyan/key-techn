@@ -11,8 +11,7 @@ interface PopupProps {
   content: string;
   modify: boolean;
 }
-
-const contentComponents: { [key: string]: React.FC } = {
+const contentComponents: { [key: string]: React.FC<any> } = {
   access: AccessContent,
   settings: SettingsContent,
   modify: ModifyContent,
@@ -41,7 +40,7 @@ const Popup: React.FC<PopupProps> = ({ header, content, onClose, modify }) => {
         </div>
         <div className='popupContent scrollbar'>
           {ContentComponent ? (
-            <ContentComponent />
+            <ContentComponent onClose={onClose} />
           ) : (
             <div>Content not found!</div>
           )}

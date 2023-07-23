@@ -98,15 +98,18 @@ const Form: React.FC<FormProps> = ({
   const [textArea, setTextArea] = useState("");
   const maxCharacterLimit = 1200;
   const isExceedingLimit = textArea.length > maxCharacterLimit;
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const showPassword = useCallback((e: any) => {
-    e.preventDefault();
-    if (passwordRef.current) {
-      const inputElement = passwordRef.current;
-      inputElement.type =
-        inputElement.type === "password" ? "text" : "password";
-    }
-  }, []);
+  const inputRefs = useRef<HTMLInputElement | any>([]);
+  const showPassword = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>, i: number) => {
+      e.preventDefault();
+      if (inputRefs?.current[i]) {
+        const inputElement = inputRefs.current[i];
+        inputElement.type =
+          inputElement.type === "password" ? "text" : "password";
+      }
+    },
+    [inputConfigs]
+  );
   const [chapterId, setChapterId] = useState<null | number>(null);
   const [openChapter, setOpenChapter] = useState(false);
   const folders = useSelector((state: AppState) => state.folders);
@@ -120,9 +123,10 @@ const Form: React.FC<FormProps> = ({
         )
       );
   }, [folders, dispatch, activedFolder]);
+
   return (
     <form className='formContainer' onSubmit={e => e.preventDefault()}>
-      {inputConfigs.map(input => (
+      {inputConfigs.map((input, i) => (
         <div
           className={`${
             input.inputId === "chapter" && "formGroupChapter"
@@ -135,7 +139,7 @@ const Form: React.FC<FormProps> = ({
               name={input.inputId}
               value={input.value}
               autoComplete={input.autoComplete}
-              ref={input.inputId === "pass" ? passwordRef : null}
+              ref={el => (inputRefs.current[i] = el)}
               onChange={e => handleChange(e.target.value, input.id)}
               required
               aria-hidden={true}
@@ -149,7 +153,7 @@ const Form: React.FC<FormProps> = ({
                     className='eye copy'
                     onClick={e => {
                       e.preventDefault();
-                      showPassword(e);
+                      showPassword(e, i);
                     }}>
                     <img src={eyeIcon} alt='Eye' />
                   </button>

@@ -108,7 +108,7 @@ const Form: React.FC<FormProps> = ({
           inputElement.type === "password" ? "text" : "password";
       }
     },
-    [inputConfigs]
+    []
   );
   const [chapterId, setChapterId] = useState<null | number>(null);
   const [openChapter, setOpenChapter] = useState(false);

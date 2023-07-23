@@ -137,9 +137,8 @@ const FirstPart = () => {
               setOpenPopup({
                 open: true,
                 name: "modify",
-                rusName: "create folder",
+                rusName: "Создать папку",
               });
-              // dispatch(setActivedFolder(undefined));
             }}
           />
         )}

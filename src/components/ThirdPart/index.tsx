@@ -103,7 +103,7 @@ const ThirdPart = () => {
           header={`${openPopup.rusName} 
             ${
               (openPopup.name === "modify" &&
-                (activatedPassword ? "пароль" : "папкуaaaaaaaaaaaaa")) ||
+                (activatedPassword ? "пароль" : "папку")) ||
               ""
             }
           `}

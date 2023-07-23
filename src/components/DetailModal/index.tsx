@@ -47,6 +47,9 @@ const DetailModal: React.FC<DetailModalProps> = ({
   const folders = useSelector((state: AppState) => state.folders);
   const activatedFolder = useSelector((state: AppState) => state.folder);
   const activatedPassword = useSelector((state: AppState) => state.password);
+  const nextFolder =
+    folders.find(folder => folder.id === activatedFolder.id + 1) ||
+    folders.find(folder => folder.id === activatedFolder.id - 1);
 
   if (!isOpen) {
     return null;
@@ -62,11 +65,6 @@ const DetailModal: React.FC<DetailModalProps> = ({
             className='detail'
             onClick={e => {
               e.stopPropagation();
-              const nextFolder = folders.find(
-                folder =>
-                  folder.id === activatedFolder.id + 1 ||
-                  folder.id === activatedFolder.id - 1
-              );
               if (id === 1) {
                 remove();
                 if (!activatedPassword) {

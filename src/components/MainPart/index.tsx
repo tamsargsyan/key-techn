@@ -102,7 +102,7 @@ const MainPart = () => {
               setOpenPopup({
                 open: true,
                 name: "modify",
-                rusName: "create password",
+                rusName: "Создать пароль",
               });
               dispatch(setAddPass(true));
             }}

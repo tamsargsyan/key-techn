@@ -29,12 +29,18 @@ const btns = [
   { id: 4, name: "search", rusName: "Поиск", imgUrl: SEARCH_ICON },
 ];
 
+export interface PopupStateProps {
+  open: boolean;
+  name: string;
+  rusName: string;
+}
+
 const FirstPart = () => {
   const initialFolders = useSelector((state: AppState) => state.folders);
   const [folders, setFolders] = useState<FolderProps[]>(initialFolders);
   const [activeKey, setActiveKey] = useState<null | number>(null);
   const [value, setValue] = useState("");
-  const [openPopup, setOpenPopup] = useState({
+  const [openPopup, setOpenPopup] = useState<PopupStateProps>({
     open: false,
     name: "",
     rusName: "",
@@ -124,6 +130,7 @@ const FirstPart = () => {
                 <img src={DETAIL_ICON} alt='Detail' />
               </button>
               <DetailModal
+                item='папку'
                 className='folderDetails'
                 remove={() => dispatch(removeFolder(id))}
                 isOpen={folders.find(folder => folder.isOpen)?.id === id}

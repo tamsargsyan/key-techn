@@ -48,6 +48,7 @@ const MainPart = () => {
   const handleSortClick = () => {
     setSortAscending(!sortAscending);
   };
+  const folders = useSelector((state: AppState) => state.folders);
   return (
     <div className='mainPartContainer'>
       <div className='heading' onClick={handleSortClick}>
@@ -88,6 +89,7 @@ const MainPart = () => {
                   <img src={STAR_TRANSPARENT_ICON} alt='Star' />
                 </div>
                 <DetailModal
+                  item='пароль'
                   className='passwordDetails'
                   remove={() => dispatch(removePass(pass.id))}
                   isOpen={passwords?.find(pass => pass.isOpen)?.id === pass.id}
@@ -98,6 +100,7 @@ const MainPart = () => {
         ) : (
           <AddFolder
             text='Добавить пароль'
+            disabled={!folders.length}
             onClick={() => {
               setOpenPopup({
                 open: true,

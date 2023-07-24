@@ -48,7 +48,7 @@ export const changeFolderValue = (val: string): SetActivateAction => ({
 export const changePasswordValue = (
   activeFolderId: number,
   activePasswordId: number,
-  configs: any
+  configs: Array<string>
 ): SetActivateAction => ({
   type: ActionTypes.CHANGE_PASSWORD_VALUE,
   payload: {

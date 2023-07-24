@@ -6,9 +6,8 @@ interface DropdownComponentProps {
   name: string;
 }
 
-const handleMenuClick: MenuProps["onClick"] = e => {
+const handleMenuClick: MenuProps["onClick"] = () => {
   message.info("Click on menu item.");
-  console.log("click", e);
 };
 
 const items: MenuProps["items"] = [

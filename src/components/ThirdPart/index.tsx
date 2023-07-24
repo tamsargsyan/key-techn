@@ -68,7 +68,7 @@ const ThirdPart = () => {
     } else {
       setInputConfigs(initialInputs);
     }
-  }, [activatedPassword, activatedFolderName?.url, initialInputs]);
+  }, [activatedPassword, activatedFolderName, initialInputs]);
   return (
     <div className='thirdPartContainer'>
       <div className='heading'>

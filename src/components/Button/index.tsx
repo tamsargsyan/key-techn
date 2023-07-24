@@ -4,10 +4,20 @@ interface ButtonProps {
   onClick?: () => void;
   text: string;
   background: string;
+  disabled?: boolean;
 }
-const Button: React.FC<ButtonProps> = ({ onClick, text, background }) => {
+const Button: React.FC<ButtonProps> = ({
+  onClick,
+  text,
+  background,
+  disabled,
+}) => {
   return (
-    <button className='btn' style={{ background }} onClick={onClick}>
+    <button
+      className='btn'
+      style={{ background }}
+      onClick={onClick}
+      disabled={disabled}>
       {text}
     </button>
   );

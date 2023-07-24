@@ -6,7 +6,7 @@ import FOLDER_3 from "../../assets/icons/folder/3.svg";
 import FOLDER_4 from "../../assets/icons/folder/4.svg";
 import FOLDER_5 from "../../assets/icons/folder/5.svg";
 import FOLDER_6 from "../../assets/icons/folder/6.svg";
-import Form from "../Form";
+import Form, { InputConfig } from "../Form";
 import "./index.css";
 import { AppState } from "../../redux/reducers";
 import { useDispatch } from "react-redux";
@@ -49,7 +49,8 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose, change }) => {
     ],
     [activatedFolder?.name]
   );
-  const [inputConfigs, setInputConfigs] = useState(initialInputs);
+  const [inputConfigs, setInputConfigs] =
+    useState<InputConfig[]>(initialInputs);
   useEffect(() => {
     if (activatedPassword || addPassState) {
       setInputConfigs([
@@ -72,7 +73,7 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose, change }) => {
         {
           id: 3,
           name: "Пароль",
-          type: "text",
+          type: "password",
           inputId: "pass",
           value: activatedPassword?.pass || "",
           autoComplete: "current-password",
@@ -80,7 +81,7 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose, change }) => {
         {
           id: 4,
           name: "Повторите",
-          type: "text",
+          type: "password",
           inputId: "pass",
           value: activatedPassword?.pass || "",
           autoComplete: "current-password",
@@ -142,7 +143,7 @@ const ModifyContent: React.FC<ModifyContentProps> = ({ onClose, change }) => {
               dispatch(addFolder(inputConfigs[0].value));
             }
           } else {
-            activatedPassword
+            activatedPassword && activatedFolder
               ? dispatch(
                   changePasswordValue(
                     activatedFolder.id,

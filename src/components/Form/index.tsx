@@ -8,6 +8,7 @@ import modifyIcon from "../../assets/icons/modify.svg";
 import urlIcon from "../../assets/icons/url.svg";
 import deleteIcon from "../../assets/icons/delete.svg";
 import arrowIcon from "../../assets/icons/arrow.svg";
+import tickWhiteIcon from "../../assets/icons/tick-white.svg";
 import weakIcon from "../../assets/icons/error.svg";
 import againIcon from "../../assets/icons/again.svg";
 import emptyFolderIcon from "../../assets/icons/folder/empty-folder.svg";
@@ -22,8 +23,9 @@ import {
   setAddPass,
 } from "../../redux/actions";
 import { useDispatch } from "react-redux";
+import { PopupStateProps } from "../FirstPart";
 
-interface InputConfig {
+export interface InputConfig {
   id: number;
   name: string;
   type: string;
@@ -37,7 +39,7 @@ interface IconConfig {
 }
 interface FormProps {
   inputConfigs: InputConfig[];
-  setOpenPopup: any;
+  setOpenPopup?: (arg: PopupStateProps) => void;
   setInputConfigs: any;
   modify: boolean;
   icons?: IconConfig[];
@@ -74,8 +76,8 @@ const Form: React.FC<FormProps> = ({
   );
   const handleChange = useCallback(
     (txt: string, id: number) => {
-      setInputConfigs((prevInputs: any) =>
-        prevInputs.map((input: any) =>
+      setInputConfigs((prevInputs: InputConfig[]) =>
+        prevInputs.map(input =>
           input.id === id ? { ...input, value: txt } : input
         )
       );
@@ -98,7 +100,33 @@ const Form: React.FC<FormProps> = ({
   const [textArea, setTextArea] = useState("");
   const maxCharacterLimit = 1200;
   const isExceedingLimit = textArea.length > maxCharacterLimit;
-  const inputRefs = useRef<HTMLInputElement | any>([]);
+  const pass = inputConfigs.find(
+    input => input.id === 3 && input.inputId === "pass"
+  )?.value;
+  const passwordRequirementsRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{5,}$/;
+  const isStrongPassword = (password: string | undefined) => {
+    return password && passwordRequirementsRegex.test(password);
+  };
+  const generatePassword = () => {
+    const minLength = 5;
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numberChars = "0123456789";
+    const allChars = lowercaseChars + uppercaseChars + numberChars;
+    const passwordLength = Math.max(minLength, 10);
+    const password = Array.from({ length: passwordLength }, () => {
+      const randomIndex = Math.floor(Math.random() * allChars.length);
+      return allChars[randomIndex];
+    }).join("");
+
+    return password;
+  };
+  const isConsidered =
+    pass !==
+    inputConfigs.find(input => input.id === 4 && input.inputId === "pass")
+      ?.value;
+  const inputRefs = useRef<HTMLInputElement[] | any>([]);
+  const [inputIdx, setInputIdx] = useState<null | number>(null);
   const showPassword = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>, i: number) => {
       e.preventDefault();
@@ -143,6 +171,12 @@ const Form: React.FC<FormProps> = ({
               onChange={e => handleChange(e.target.value, input.id)}
               required
               aria-hidden={true}
+              className={`${
+                isConsidered &&
+                input.id === 4 &&
+                input.inputId === "pass" &&
+                "maxSymbolTextArea"
+              }`}
             />
             {(!modify ||
               input.inputId === "chapter" ||
@@ -154,7 +188,12 @@ const Form: React.FC<FormProps> = ({
                     onClick={e => {
                       e.preventDefault();
                       showPassword(e, i);
+                      setInputIdx(inputIdx === i ? null : i);
                     }}>
+                    <div
+                      className={`${
+                        inputIdx !== i && "hidePass"
+                      } lineEye`}></div>
                     <img src={eyeIcon} alt='Eye' />
                   </button>
                 )}
@@ -220,20 +259,53 @@ const Form: React.FC<FormProps> = ({
               </div>
             </div>
           )}
-          {modify && input.id === 4 && (
-            <div className='complexity'>
-              <label htmlFor='complecity'>Сложность:</label>
-              <div className='complexityBtns'>
-                <span className='weakness'>
-                  <img src={weakIcon} alt='Weak' />
-                  Слабый пароль
+          {modify && input.id === 4 && input.inputId === "pass" && (
+            <>
+              {isConsidered && (
+                <span className='maxSymbolTxt considered'>
+                  Пароли не соответствуют
                 </span>
-                <button className='again'>
-                  <img src={againIcon} alt='Again' />
-                  Придумать пароль
-                </button>
+              )}
+              <div className='complexity'>
+                <label htmlFor='complecity'>Сложность:</label>
+                <div className='complexityBtns'>
+                  <span
+                    className={`${isStrongPassword(pass) && "strongPassword"} ${
+                      pass === "" && "emptyPass"
+                    } weakness`}>
+                    <img
+                      src={isStrongPassword(pass) ? tickWhiteIcon : weakIcon}
+                      alt='Weak'
+                    />
+                    {isStrongPassword(pass) ? "Сильный" : "Слабый"} пароль
+                  </span>
+                  <button
+                    className='again'
+                    onClick={e => {
+                      e.preventDefault();
+                      const newPass = generatePassword();
+                      const passwordInputIndex = inputConfigs.findIndex(
+                        config => config.name === "Пароль"
+                      );
+                      setInputConfigs((prevInputConfigs: InputConfig[]) => [
+                        ...prevInputConfigs.slice(0, passwordInputIndex),
+                        {
+                          ...prevInputConfigs[passwordInputIndex],
+                          value: newPass,
+                        },
+                        {
+                          ...prevInputConfigs[passwordInputIndex + 1],
+                          value: newPass,
+                        },
+                        ...prevInputConfigs.slice(passwordInputIndex + 2),
+                      ]);
+                    }}>
+                    <img src={againIcon} alt='Again' />
+                    Придумать пароль
+                  </button>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       ))}
@@ -263,7 +335,7 @@ const Form: React.FC<FormProps> = ({
               key={id}
               onClick={e => {
                 e.preventDefault();
-                id !== 4
+                id !== 4 && setOpenPopup
                   ? setOpenPopup({
                       open: true,
                       name,
@@ -306,6 +378,10 @@ const Form: React.FC<FormProps> = ({
           <div className='saveCancelWrapper'>
             <Button
               text='Сохранить'
+              disabled={
+                inputConfigs.some(input => input.type === "password") &&
+                (isConsidered || !isStrongPassword(pass))
+              }
               onClick={() => {
                 onClick && onClick();
                 onClose && onClose();

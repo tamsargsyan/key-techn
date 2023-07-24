@@ -1,11 +1,11 @@
 import { ActionTypes } from "./constants";
 import { SetActivateAction } from "./actions";
-import { FolderProps, initialFolders } from "../data";
+import { FolderProps, PasswordProps, initialFolders } from "../data";
 
 export interface AppState {
   folders: FolderProps[];
-  folder: any;
-  password: any;
+  folder: FolderProps | undefined;
+  password: PasswordProps | undefined;
   addFolderState: boolean;
   addPassState: boolean;
 }
@@ -13,7 +13,7 @@ export interface AppState {
 const initialState: AppState = {
   folders: initialFolders,
   folder: initialFolders[0],
-  password: null,
+  password: undefined,
   addFolderState: false,
   addPassState: false,
 };
@@ -53,6 +53,7 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
       return {
         ...state,
         folders: [...state.folders, newFolder],
+        folder: newFolder,
       };
     case ActionTypes.REMOVE_FOLDER:
       return {
@@ -66,7 +67,7 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
       };
     case ActionTypes.ADD_PASS:
       const activeIndex = state.folders.findIndex(
-        folder => folder.id === state.folder.id
+        folder => folder.id === state.folder?.id
       );
       const passId = state.folders[activeIndex].passwords.length
         ? state.folders[activeIndex].passwords[
@@ -77,9 +78,9 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
       const newPasswordItem = {
         id: passId,
         passName: values[0],
-        pass: values[1],
-        login: values[2],
-        url: values[3],
+        pass: values[3],
+        login: values[1],
+        url: values[4],
         isOpen: false,
       };
       const activeFolderIndex = state.folders.findIndex(
@@ -112,7 +113,7 @@ const reducer = (state = initialState, action: SetActivateAction): AppState => {
       return {
         ...state,
         folders: state.folders.map(folder =>
-          folder.id === state.folder.id
+          folder.id === state.folder?.id
             ? { ...folder, name: action.payload }
             : folder
         ),

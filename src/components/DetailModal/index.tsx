@@ -15,19 +15,21 @@ interface DetailProps {
 
 interface DetailModalProps {
   isOpen: boolean;
-  remove: any;
+  remove: () => void;
   className: string;
+  item: string;
 }
 
 const DetailModal: React.FC<DetailModalProps> = ({
   isOpen,
   remove,
   className,
+  item,
 }) => {
   const details = [
     {
       id: 1,
-      name: "Удалить папку",
+      name: `Удалить ${item}`,
     },
     {
       id: 2,
@@ -47,9 +49,9 @@ const DetailModal: React.FC<DetailModalProps> = ({
   const folders = useSelector((state: AppState) => state.folders);
   const activatedFolder = useSelector((state: AppState) => state.folder);
   const activatedPassword = useSelector((state: AppState) => state.password);
-  const nextFolder =
-    folders.find(folder => folder.id === activatedFolder.id + 1) ||
-    folders.find(folder => folder.id === activatedFolder.id - 1);
+  const activatedFolderIndex = folders.findIndex(
+    folder => folder.id === activatedFolder?.id
+  );
 
   if (!isOpen) {
     return null;
@@ -68,8 +70,11 @@ const DetailModal: React.FC<DetailModalProps> = ({
               if (id === 1) {
                 remove();
                 if (!activatedPassword) {
-                  if (nextFolder) {
-                    dispatch(setActivedFolder(nextFolder.id));
+                  const folderToActivate =
+                    folders[activatedFolderIndex + 1] ||
+                    folders[activatedFolderIndex - 1];
+                  if (folderToActivate) {
+                    dispatch(setActivedFolder(folderToActivate.id));
                   } else {
                     dispatch(setAddFolder(true));
                     dispatch(setActivedFolder(undefined));

@@ -1,11 +1,3 @@
-import { useDispatch } from "react-redux";
-import {
-  setActivePassword,
-  setActivedFolder,
-  setAddFolder,
-} from "../../redux/actions";
-import { useSelector } from "react-redux";
-import { AppState } from "../../redux/reducers";
 import "./index.css";
 
 interface DetailProps {
@@ -45,14 +37,6 @@ const DetailModal: React.FC<DetailModalProps> = ({
     },
   ];
 
-  const dispatch = useDispatch();
-  const folders = useSelector((state: AppState) => state.folders);
-  const activatedFolder = useSelector((state: AppState) => state.folder);
-  const activatedPassword = useSelector((state: AppState) => state.password);
-  const activatedFolderIndex = folders.findIndex(
-    folder => folder.id === activatedFolder?.id
-  );
-
   if (!isOpen) {
     return null;
   }
@@ -69,19 +53,6 @@ const DetailModal: React.FC<DetailModalProps> = ({
               e.stopPropagation();
               if (id === 1) {
                 remove();
-                if (!activatedPassword) {
-                  const folderToActivate =
-                    folders[activatedFolderIndex + 1] ||
-                    folders[activatedFolderIndex - 1];
-                  if (folderToActivate) {
-                    dispatch(setActivedFolder(folderToActivate.id));
-                  } else {
-                    dispatch(setAddFolder(true));
-                    dispatch(setActivedFolder(undefined));
-                  }
-                } else {
-                  dispatch(setActivePassword(undefined));
-                }
               }
             }}>
             {name}

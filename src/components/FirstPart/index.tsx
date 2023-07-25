@@ -68,7 +68,10 @@ const FirstPart = () => {
   };
   const addFolderState = useSelector((state: AppState) => state.addFolderState);
   const activeFolderId = useSelector((state: AppState) => state.folder?.id);
-
+  const activatedFolder = useSelector((state: AppState) => state.folder);
+  const activatedFolderIndex = folders.findIndex(
+    folder => folder.id === activatedFolder?.id
+  );
   return (
     <div className='firstPartContainer'>
       <div className='header'>
@@ -132,7 +135,18 @@ const FirstPart = () => {
               <DetailModal
                 item='папку'
                 className='folderDetails'
-                remove={() => dispatch(removeFolder(id))}
+                remove={() => {
+                  dispatch(removeFolder(id));
+                  const folderToActivate =
+                    folders[activatedFolderIndex + 1] ||
+                    folders[activatedFolderIndex - 1];
+                  if (folderToActivate) {
+                    dispatch(setActivedFolder(folderToActivate.id));
+                  } else {
+                    dispatch(setAddFolder(true));
+                    dispatch(setActivedFolder(undefined));
+                  }
+                }}
                 isOpen={folders.find(folder => folder.isOpen)?.id === id}
               />
             </div>

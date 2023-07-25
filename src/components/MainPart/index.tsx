@@ -91,7 +91,10 @@ const MainPart = () => {
                 <DetailModal
                   item='пароль'
                   className='passwordDetails'
-                  remove={() => dispatch(removePass(pass.id))}
+                  remove={() => {
+                    dispatch(removePass(pass.id));
+                    dispatch(setActivePassword(undefined));
+                  }}
                   isOpen={passwords?.find(pass => pass.isOpen)?.id === pass.id}
                 />
               </div>
